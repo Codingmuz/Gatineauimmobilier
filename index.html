@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Interactif pour Acheter à Gatineau - Justin Sirois</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A single-page, vertical scrolling application designed to guide the user through a narrative journey. It starts with the main value proposition (cost), moves to exploration (neighborhoods), demystifies the process (legal/commuting), and ends with a strong call to action. This structure transforms the linear PDF into an interactive story, allowing users to engage with data and concepts visually, which is more effective for lead generation than a static document. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Cost difference between Ottawa/Gatineau (Secret 1). Goal: Compare. Viz: Bar chart (Chart.js). Interaction: Hover for details. Justification: A visual chart provides immediate, powerful proof of the core financial benefit.
+        2. Report Info: Cost difference - Personalized (Secret 1). Goal: Inform/Engage. Viz: Text output from LLM. Interaction: User input, button click to generate. Justification: Provides a direct, personalized answer to the core financial question.
+        3. Report Info: Popular neighborhoods (Secret 2). Goal: Explore. Viz: Interactive HTML/CSS cards. Interaction: Click to reveal details. Justification: Encourages user engagement and makes discovering neighborhoods a more active, less passive experience.
+        4. Report Info: Neighborhood suggestions - Personalized (Secret 2). Goal: Inform/Engage. Viz: Text output from LLM. Interaction: User input, button click to generate. Justification: Offers tailored neighborhood recommendations based on user preferences.
+        5. Report Info: Legal process (Secret 3). Goal: Organize/Inform. Viz: HTML/CSS stepper diagram. Interaction: Click step to see description. Justification: Simplifies a potentially intimidating process into clear, manageable steps, building confidence.
+        6. Report Info: Commuting (Secret 4). Goal: Inform. Viz: Icon-based HTML cards. Interaction: Static display. Justification: Quickly conveys solutions to a common concern using easily scannable visuals.
+        7. Report Info: Myth Buster/FAQ (General). Goal: Inform/Address Concerns. Viz: Text output from LLM. Interaction: User input, button click to generate. Justification: Allows users to dynamically ask questions and receive answers, building trust and clarifying common misconceptions.
+        8. Report Info: Commute Optimizer (Secret 4). Goal: Inform/Plan. Viz: Text output from LLM. Interaction: User inputs, button click to generate. Justification: Provides personalized commuting advice, directly addressing a key concern for inter-provincial movers.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F8F7F4;
+            color: #333D45;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1587424647387-9d05e26a27e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+        }
+        .active-tab {
+            border-color: #5A8A9E;
+            color: #5A8A9E;
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .active-tab-content {
+            display: block;
+        }
+        .step {
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            background-color: #5A8A9E;
+            color: white;
+            transform: scale(1.05);
+        }
+        .step-line {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background-color: #e5e7eb;
+            z-index: -1;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #5A8A9E;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="font-bold text-lg text-slate-800">
+                Justin Sirois <span class="font-normal text-slate-500">Courtier Immobilier</span>
+            </div>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#pourquoi-gatineau" class="text-slate-600 hover:text-[#5A8A9E] transition">Pourquoi Gatineau?</a>
+                <a href="#quartiers" class="text-slate-600 hover:text-[#5A8A9E] transition">Quartiers</a>
+                <a href="#processus" class="text-slate-600 hover:text-[#5A8A9E] transition">Le Processus</a>
+                <a href="#navette" class="text-slate-600 hover:text-[#5A8A9E] transition">Navette & Accès</a>
+                <a href="#contact" class="bg-[#5A8A9E] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow">Contactez-moi</a>
+            </div>
+            <div class="md:hidden">
+                 <a href="#contact" class="bg-[#5A8A9E] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow text-sm">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-bg text-white h-[60vh] md:h-[70vh] flex items-center">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">Votre future maison vous attend à Gatineau.</h1>
+                <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto">Découvrez comment économiser des dizaines de milliers de dollars sans vous éloigner d'Ottawa. Ce guide interactif vous dévoile tout.</p>
+            </div>
+        </section>
+
+        <section id="pourquoi-gatineau" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Le Secret des Économies Insoupçonnées</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Comparez le pouvoir d'achat immobilier. Pour un budget similaire, Gatineau offre significativement plus.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="bg-slate-50 p-6 md:p-8 rounded-lg">
+                        <h3 class="font-bold text-xl mb-4 text-slate-700">Prix de Vente Médian (Maison Unifamiliale)</h3>
+                        <div class="chart-container relative h-80 w-full max-w-lg mx-auto">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center mt-2 text-slate-500">Données à titre illustratif basées sur les tendances du marché.</p>
+
+                        <div class="mt-8">
+                            <h3 class="font-bold text-xl mb-4 text-slate-700">Calculateur d'Économies ✨</h3>
+                            <p class="text-sm text-slate-600 mb-2">Entrez votre budget approximatif à Ottawa pour voir votre potentiel d'économies à Gatineau :</p>
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
+                                <input type="number" id="ottawaBudgetInput" placeholder="Ex: 600000" class="flex-grow p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
+                                <button id="calculateSavingsBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full sm:w-auto">Calculer mes économies ✨</button>
+                            </div>
+                            <div id="savingsResult" class="mt-4 p-4 bg-white rounded-lg shadow-inner hidden">
+                                <div id="savingsSpinner" class="loading-spinner mx-auto hidden"></div>
+                                <p id="savingsText" class="text-slate-700"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-slate-800">Au-delà du prix : une qualité de vie exceptionnelle.</h3>
+                        <p class="text-slate-600">Le véritable avantage de Gatineau ne réside pas seulement dans le coût des propriétés. C'est un investissement dans un style de vie. Moins de dettes signifie plus de liberté pour profiter des parcs, des activités culturelles et du temps en famille.</p>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-teal-100 text-teal-700 p-2 rounded-full">&#10003;</div>
+                            <div>
+                                <h4 class="font-semibold">Éducation de qualité</h4>
+                                <p class="text-slate-500 text-sm">Accès à des commissions scolaires francophones et anglophones réputées.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                           <div class="bg-sky-100 text-sky-700 p-2 rounded-full">&#127795;</div>
+                            <div>
+                                <h4 class="font-semibold">Nature à Proximité</h4>
+                                <p class="text-slate-500 text-sm">Le Parc de la Gatineau, des rivières et des lacs à votre porte pour une évasion rapide.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-amber-100 text-amber-700 p-2 rounded-full">&#127979;</div>
+                            <div>
+                                <h4 class="font-semibold">Services Complets</h4>
+                                <p class="text-slate-500 text-sm">Hôpitaux, commerces, restaurants et vie communautaire dynamique.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quartiers" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Maîtrisez la Géographie Gagnante</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Chaque quartier de Gatineau a sa propre personnalité. Cliquez pour découvrir celui qui vous correspond.</p>
+                </div>
+                <div class="flex flex-col md:flex-row md:space-x-8">
+                    <div class="md:w-1/3 mb-8 md:mb-0">
+                        <ul id="quartier-tabs" class="space-y-2">
+                            <li class="quartier-tab active-tab cursor-pointer p-4 border-l-4 rounded-r-md bg-white shadow-sm" data-tab="plateau">
+                                <h4 class="font-semibold">Le Plateau</h4>
+                                <p class="text-sm text-slate-500">Moderne et familial</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="limbour">
+                                <h4 class="font-semibold">Limbour</h4>
+                                <p class="text-sm text-slate-500">Verdoyant et établi</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="cote-azur">
+                                <h4 class="font-semibold">Côte d'Azur</h4>
+                                <p class="text-sm text-slate-500">Dynamique et accessible</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-2/3 bg-white p-8 rounded-lg shadow-lg">
+                        <div id="plateau" class="tab-content active-tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Le Plateau : Le meilleur des deux mondes</h3>
+                            <p class="text-slate-600 mb-4">Idéal pour les jeunes familles et les professionnels, le Plateau combine des constructions récentes avec un accès inégalé aux commerces et services. Sa proximité avec le pont Champlain en fait un choix stratégique pour ceux qui travaillent à l'ouest d'Ottawa.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Familial</span>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Commerces</span>
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Accès Ottawa</span>
+                            </div>
+                        </div>
+                        <div id="limbour" class="tab-content">
+                             <h3 class="text-2xl font-bold mb-4 text-slate-800">Limbour : La tranquilité verdoyante</h3>
+                            <p class="text-slate-600 mb-4">Caractérisé par ses grands terrains matures et ses rues tranquilles, Limbour est un havre de paix. C'est le quartier parfait pour ceux qui recherchent l'espace et la nature, tout en restant connectés à la ville grâce à un accès facile aux autoroutes.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Grands terrains</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Tranquille</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full">Établi</span>
+                            </div>
+                        </div>
+                        <div id="cote-azur" class="tab-content">
+                             <h3 class="text-2xl font-bold mb-4 text-slate-800">Côte d'Azur : Dynamisme et accessibilité</h3>
+                            <p class="text-slate-600 mb-4">Ce secteur offre une excellente valeur et une grande diversité de propriétés. Bien desservi par le transport en commun de la STO, il est idéal pour les premiers acheteurs et ceux qui cherchent une connexion rapide vers l'est d'Ottawa ou le centre-ville de Gatineau.</p>
+                             <div class="flex space-x-4 text-sm">
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full">Abordable</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Transport en commun</span>
+                                <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Connecté</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-slate-200">
+                            <h3 class="font-bold text-xl mb-4 text-slate-700">Suggestions de Quartiers Personnalisées ✨</h3>
+                            <p class="text-sm text-slate-600 mb-2">Décrivez ce que vous recherchez dans un quartier (ex: calme, proche des écoles, parcs, dynamisme, transports en commun) :</p>
+                            <textarea id="neighborhoodPrefsInput" rows="3" class="w-full p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800" placeholder="J'ai une jeune famille et je cherche des parcs et de bonnes écoles..."></textarea>
+                            <button id="suggestNeighborhoodsBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md mt-3 w-full">Suggérer des quartiers ✨</button>
+                            <div id="neighborhoodResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
+                                <div id="neighborhoodSpinner" class="loading-spinner mx-auto hidden"></div>
+                                <p id="neighborhoodText" class="text-slate-700"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="processus" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Démystifier le Processus d'Achat</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Acheter au Québec est simple quand on connaît les étapes. Voici le parcours typique.</p>
+                </div>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="step-line hidden md:block"></div>
+                    <div id="steps-container" class="grid md:grid-cols-4 gap-8">
+                        <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="1">
+                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">1</div>
+                            <h4 class="font-semibold">Promesse d'Achat</h4>
+                        </div>
+                        <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="2">
+                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">2</div>
+                            <h4 class="font-semibold">Conditions</h4>
+                        </div>
+                        <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="3">
+                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">3</div>
+                            <h4 class="font-semibold">Notaire</h4>
+                        </div>
+                         <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="4">
+                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">4</div>
+                            <h4 class="font-semibold">Prise de Possession</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="step-details" class="mt-8 bg-slate-50 p-8 rounded-lg min-h-[150px] max-w-4xl mx-auto transition-all duration-300">
+                    <h3 id="step-title" class="text-xl font-bold mb-2 text-slate-800"></h3>
+                    <p id="step-description" class="text-slate-600"></p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-slate-200">
+                    <h3 class="font-bold text-xl mb-4 text-slate-700">Démystificateur de Mythes ✨</h3>
+                    <p class="text-sm text-slate-600 mb-2">Posez une question sur le processus d'achat immobilier à Gatineau ou sur un mythe que vous avez entendu :</p>
+                    <textarea id="mythQuestionInput" rows="3" class="w-full p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800" placeholder="Est-ce vrai que les taxes sont beaucoup plus élevées au Québec ?"></textarea>
+                    <button id="askMythBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md mt-3 w-full">Poser ma question ✨</button>
+                    <div id="mythResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
+                        <div id="mythSpinner" class="loading-spinner mx-auto hidden"></div>
+                        <p id="mythText" class="text-slate-700"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="navette" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Le Bon Plan pour la Navette</h2>
+                    <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Vivez à Gatineau, travaillez à Ottawa, sans stress ! Découvrez les options de transport.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-4xl block mb-4">&#128663;</span>
+                        <h3 class="font-bold text-xl mb-2 text-slate-800">En Voiture</h3>
+                        <p class="text-slate-600 text-sm">Stratégies de ponts et heures de pointe pour optimiser votre trajet.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-4xl block mb-4">&#128652;</span>
+                        <h3 class="font-bold text-xl mb-2 text-slate-800">Transports en Commun (STO)</h3>
+                        <p class="text-slate-600 text-sm">Réseau d'autobus efficace connecté à Ottawa (OC Transpo).</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-4xl block mb-4">&#128690;</span>
+                        <h3 class="font-bold text-xl mb-2 text-slate-800">Vélo & Télétravail</h3>
+                        <p class="text-slate-600 text-sm">Profitez des pistes cyclables ou de la flexibilité du télétravail.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-slate-200 bg-white p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+                    <h3 class="font-bold text-xl mb-4 text-slate-700">Optimisateur de Navette ✨</h3>
+                    <p class="text-sm text-slate-600 mb-2">Entrez votre lieu de travail à Ottawa et un quartier de Gatineau souhaité pour obtenir des conseils sur votre trajet :</p>
+                    <div class="flex flex-col space-y-3 mb-4">
+                        <input type="text" id="ottawaWorkLocation" placeholder="Lieu de travail à Ottawa (ex: Parlement, Centre-ville)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
+                        <input type="text" id="gatineauNeighborhoodPref" placeholder="Quartier de Gatineau préféré (ex: Le Plateau, Limbour)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
+                    </div>
+                    <button id="optimizeCommuteBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full">Optimiser ma navette ✨</button>
+                    <div id="commuteResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
+                        <div id="commuteSpinner" class="loading-spinner mx-auto hidden"></div>
+                        <p id="commuteText" class="text-slate-700"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16 md:py-24 bg-slate-800 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-md mx-auto mb-8">
+                    <img src="JUSTIN PRO V2.jpg" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-600 object-cover" alt="Photo de Justin Sirois" onerror="this.onerror=null; this.src='https://placehold.co/128x128/F8F7F4/333D45?text=JS';">
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold">Prêt à faire le saut ? Parlons-en.</h2>
+                <p class="mt-4 mb-8 text-lg text-slate-300 max-w-2xl mx-auto">Mon engagement est de vous offrir des résultats concrets, une expertise détaillée et une négociation stratégique. Laissez-moi vous guider vers votre nouvelle maison à Gatineau.</p>
+                
+                <div class="bg-white text-slate-800 rounded-lg p-8 max-w-sm mx-auto shadow-2xl">
+                    <h3 class="text-2xl font-bold">Justin Sirois</h3>
+                    <p class="text-slate-500 mb-4">Courtier Immobilier Résidentiel</p>
+                    <div class="space-y-3 text-left">
+                        <p><span class="font-semibold">Téléphone :</span> <a href="tel:819-431-8249" class="text-[#5A8A9E] hover:underline">819.431.8249</a></p>
+                        <p><span class="font-semibold">Courriel :</span> <a href="mailto:Justin@1sirois.com" class="text-[#5A8A9E] hover:underline">Justin@1sirois.com</a></p>
+                         <p><span class="font-semibold">Site Web :</span> <a href="https://sites.google.com/view/justinsiroisimmobilier" target="_blank" rel="noopener noreferrer" class="text-[#5A8A9E] hover:underline">justinsiroisimmobilier.google.site</a></p>
+                    </div>
+                     <a href="mailto:Justin@1sirois.com" class="mt-6 block w-full bg-[#5A8A9E] text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition shadow-md">Planifier un appel</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-6">
+        <div class="container mx-auto px-6 text-center text-sm">
+            <p>&copy; 2025 Justin Sirois, Courtier Immobilier. Tous droits réservés.</p>
+            <p class="mt-1">Cette page est à titre informatif et ne constitue pas une offre de vente.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const priceCtx = document.getElementById('priceChart').getContext('2d');
+            new Chart(priceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ottawa', 'Gatineau'],
+                    datasets: [{
+                        label: 'Prix de vente médian',
+                        data: [750000, 480000],
+                        backgroundColor: [
+                            'rgba(203, 213, 225, 0.6)',
+                            'rgba(90, 138, 158, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(100, 116, 139, 1)',
+                            'rgba(90, 138, 158, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 0 });
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('fr-CA', { style: 'currency', currency: 'CAD' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const quartierTabs = document.querySelectorAll('.quartier-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            quartierTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    quartierTabs.forEach(t => t.classList.remove('active-tab'));
+                    tab.classList.add('active-tab');
+                    
+                    const target = tab.getAttribute('data-tab');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active-tab-content');
+                        if (content.id === target) {
+                            content.classList.add('active-tab-content');
+                        }
+                    });
+                });
+            });
+
+            const steps = {
+                '1': { 
+                    title: 'Étape 1: La Promesse d\'Achat',
+                    description: 'C\'est le document juridique où vous faites une offre formelle sur une propriété. Contrairement à l\'Ontario, elle est contraignante une fois acceptée. Je vous aide à rédiger une offre solide qui protège vos intérêts.'
+                },
+                '2': {
+                    title: 'Étape 2: Réalisation des Conditions',
+                    description: 'Cette période cruciale vous permet de réaliser les conditions de l\'offre, comme l\'inspection du bâtiment et l\'obtention de votre financement hypothécaire. C\'est votre filet de sécurité pour vous assurer que tout est en ordre.'
+                },
+                '3': {
+                    title: 'Étape 3: Le Rendez-vous chez le Notaire',
+                    description: 'Au Québec, le notaire est un officier public qui finalise la transaction. Il s\'assure que les titres de propriété sont clairs et que tous les documents sont conformes à la loi. C\'est une étape clé pour sécuriser votre investissement.'
+                },
+                '4': {
+                    title: 'Étape 4: La Prise de Possession',
+                    description: 'Félicitations ! Une fois l\'acte de vente signé chez le notaire, vous recevez les clés et devenez officiellement propriétaire de votre nouvelle maison à Gatineau. L\'aventure commence !'
+                }
+            };
+
+            const stepsContainer = document.getElementById('steps-container');
+            const stepTitle = document.getElementById('step-title');
+            const stepDescription = document.getElementById('step-description');
+            
+            function updateStepDetails(stepNumber) {
+                const allSteps = stepsContainer.querySelectorAll('.step');
+                allSteps.forEach(s => s.classList.remove('active'));
+                
+                const activeStep = stepsContainer.querySelector(`[data-step="${stepNumber}"]`);
+                if (activeStep) {
+                    activeStep.classList.add('active');
+                }
+                
+                stepTitle.textContent = steps[stepNumber].title;
+                stepDescription.textContent = steps[stepNumber].description;
+            }
+
+            stepsContainer.addEventListener('click', (e) => {
+                const stepElement = e.target.closest('.step');
+                if (stepElement) {
+                    const stepNumber = stepElement.getAttribute('data-step');
+                    updateStepDetails(stepNumber);
+                }
+            });
+
+            updateStepDetails('1');
+
+
+            const ottawaBudgetInput = document.getElementById('ottawaBudgetInput');
+            const calculateSavingsBtn = document.getElementById('calculateSavingsBtn');
+            const savingsResult = document.getElementById('savingsResult');
+            const savingsText = document.getElementById('savingsText');
+            const savingsSpinner = document.getElementById('savingsSpinner');
+
+            calculateSavingsBtn.addEventListener('click', async () => {
+                const ottawaBudget = ottawaBudgetInput.value;
+                if (!ottawaBudget || isNaN(ottawaBudget) || ottawaBudget <= 0) {
+                    savingsResult.classList.remove('hidden');
+                    savingsText.textContent = 'Veuillez entrer un budget valide.';
+                    return;
+                }
+
+                savingsResult.classList.remove('hidden');
+                savingsText.textContent = '';
+                savingsSpinner.classList.remove('hidden');
+                calculateSavingsBtn.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `En tant que courtier immobilier expert, si un acheteur a un budget de ${ottawaBudget} CAD à Ottawa, quel serait un prix comparable à Gatineau pour une propriété similaire et quelle serait l'économie potentielle? Fournissez une estimation du prix à Gatineau et le montant économisé, puis un message encourageant soulignant les avantages financiers d'acheter à Gatineau. Structurez la réponse avec un titre 'Votre potentiel d'économies à Gatineau' suivi des montants et du message.`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        savingsText.textContent = text;
+                    } else {
+                        savingsText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion pour le moment. Veuillez réessayer.';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'appel à l\'API Gemini (Calculateur d\'économies):', error);
+                    savingsText.textContent = 'Une erreur est survenue lors du calcul. Veuillez réessayer plus tard.';
+                } finally {
+                    savingsSpinner.classList.add('hidden');
+                    calculateSavingsBtn.disabled = false;
+                }
+            });
+
+            const neighborhoodPrefsInput = document.getElementById('neighborhoodPrefsInput');
+            const suggestNeighborhoodsBtn = document.getElementById('suggestNeighborhoodsBtn');
+            const neighborhoodResult = document.getElementById('neighborhoodResult');
+            const neighborhoodText = document.getElementById('neighborhoodText');
+            const neighborhoodSpinner = document.getElementById('neighborhoodSpinner');
+
+            suggestNeighborhoodsBtn.addEventListener('click', async () => {
+                const userDescription = neighborhoodPrefsInput.value.trim();
+                if (!userDescription) {
+                    neighborhoodResult.classList.remove('hidden');
+                    neighborhoodText.textContent = 'Veuillez décrire ce que vous recherchez.';
+                    return;
+                }
+
+                neighborhoodResult.classList.remove('hidden');
+                neighborhoodText.textContent = '';
+                neighborhoodSpinner.classList.remove('hidden');
+                suggestNeighborhoodsBtn.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `En tant qu'expert immobilier de Gatineau, si un acheteur recherche un quartier avec les caractéristiques suivantes : "${userDescription}". Parmi les quartiers de Gatineau suivants (Le Plateau, Limbour, Côte d'Azur, Aylmer, Gatineau Centre), lesquels recommanderiez-vous et pourquoi, en 1 à 2 phrases par quartier?`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        neighborhoodText.textContent = text;
+                    } else {
+                        neighborhoodText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion de quartier pour le moment. Veuillez réessayer.';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'appel à l\'API Gemini (Suggestions de quartiers):', error);
+                    neighborhoodText.textContent = 'Une erreur est survenue lors de la suggestion. Veuillez réessayer plus tard.';
+                } finally {
+                    neighborhoodSpinner.classList.add('hidden');
+                    suggestNeighborhoodsBtn.disabled = false;
+                }
+            });
+
+            // Gemini API Integration - Myth Buster
+            const mythQuestionInput = document.getElementById('mythQuestionInput');
+            const askMythBtn = document.getElementById('askMythBtn');
+            const mythResult = document.getElementById('mythResult');
+            const mythText = document.getElementById('mythText');
+            const mythSpinner = document.getElementById('mythSpinner');
+
+            askMythBtn.addEventListener('click', async () => {
+                const question = mythQuestionInput.value.trim();
+                if (!question) {
+                    mythResult.classList.remove('hidden');
+                    mythText.textContent = 'Veuillez poser une question.';
+                    return;
+                }
+
+                mythResult.classList.remove('hidden');
+                mythText.textContent = '';
+                mythSpinner.classList.remove('hidden');
+                askMythBtn.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `En tant que courtier immobilier expert à Gatineau, répondez à la question suivante concernant l'achat immobilier à Gatineau ou le déménagement d'Ottawa à Gatineau : "${question}". Soyez concis et informatif.`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        mythText.textContent = text;
+                    } else {
+                        mythText.textContent = 'Désolé, je n\'ai pas pu répondre à votre question pour le moment. Veuillez réessayer.';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'appel à l\'API Gemini (Démystificateur de Mythes):', error);
+                    mythText.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.';
+                } finally {
+                    mythSpinner.classList.add('hidden');
+                    askMythBtn.disabled = false;
+                }
+            });
+
+            // Gemini API Integration - Commute Optimizer
+            const ottawaWorkLocationInput = document.getElementById('ottawaWorkLocation');
+            const gatineauNeighborhoodPrefInput = document.getElementById('gatineauNeighborhoodPref');
+            const optimizeCommuteBtn = document.getElementById('optimizeCommuteBtn');
+            const commuteResult = document.getElementById('commuteResult');
+            const commuteText = document.getElementById('commuteText');
+            const commuteSpinner = document.getElementById('commuteSpinner');
+
+            optimizeCommuteBtn.addEventListener('click', async () => {
+                const workLocation = ottawaWorkLocationInput.value.trim();
+                const neighborhoodPref = gatineauNeighborhoodPrefInput.value.trim();
+
+                if (!workLocation || !neighborhoodPref) {
+                    commuteResult.classList.remove('hidden');
+                    commuteText.textContent = 'Veuillez entrer votre lieu de travail à Ottawa et un quartier de Gatineau.';
+                    return;
+                }
+
+                commuteResult.classList.remove('hidden');
+                commuteText.textContent = '';
+                commuteSpinner.classList.remove('hidden');
+                optimizeCommuteBtn.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `En tant qu'expert de la navette Ottawa-Gatineau, si quelqu'un travaille à "${workLocation}" à Ottawa et souhaite vivre dans le quartier "${neighborhoodPref}" à Gatineau, quels seraient les meilleurs conseils de navette (ex: ponts, transports en commun, heures) et une estimation générale du temps de trajet aux heures de pointe? Soyez concis et pratique.`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        commuteText.textContent = text;
+                    } else {
+                        commuteText.textContent = 'Désolé, je n\'ai pas pu optimiser la navette pour le moment. Veuillez réessayer.';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'appel à l\'API Gemini (Optimisateur de Navette):', error);
+                    commuteText.textContent = 'Une erreur est survenue lors de l\'optimisation. Veuillez réessayer plus tard.';
+                } finally {
+                    commuteSpinner.classList.add('hidden');
+                    optimizeCommuteBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
