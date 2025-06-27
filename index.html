@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Chosen Palette: Keller Williams Inspired (Red, Black, White/Cream) -->
     <!-- Application Structure Plan: A single-page, vertical scrolling application designed to guide the user through a narrative journey. It starts with the main value proposition (cost), moves to exploration (neighborhoods), demystifies the process (legal/commuting), and ends with a strong call to action. This structure transforms the linear PDF into an interactive story, allowing users to engage with data and concepts visually, which is more effective for lead generation than a static document. -->
     <!-- Visualization & Content Choices: 
         1. Report Info: Cost difference between Ottawa/Gatineau (Secret 1). Goal: Compare. Viz: Bar chart (Chart.js). Interaction: Hover for details. Justification: A visual chart provides immediate, powerful proof of the core financial benefit.
@@ -25,8 +25,8 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #F8F7F4;
-            color: #333D45;
+            background-color: #F8F7F4; /* Light cream background */
+            color: #333D45; /* Dark grey for general text */
         }
         .hero-bg {
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1587424647387-9d05e26a27e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
@@ -34,8 +34,8 @@
             background-position: center;
         }
         .active-tab {
-            border-color: #5A8A9E;
-            color: #5A8A9E;
+            border-color: #C80C0B; /* KW Red for active tab border */
+            color: #C80C0B; /* KW Red for active tab text */
             font-weight: 600;
         }
         .tab-content {
@@ -48,7 +48,7 @@
             transition: all 0.3s ease;
         }
         .step.active {
-            background-color: #5A8A9E;
+            background-color: #C80C0B; /* KW Red for active step background */
             color: white;
             transform: scale(1.05);
         }
@@ -63,7 +63,7 @@
         }
         .loading-spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #5A8A9E;
+            border-top: 4px solid #C80C0B; /* KW Red for spinner */
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -82,18 +82,21 @@
 
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="font-bold text-lg text-slate-800">
-                Justin Sirois <span class="font-normal text-slate-500">Courtier Immobilier</span>
+            <div class="flex items-center space-x-2">
+                <img src="JUSTIN PRO V2.jpg" alt="Photo de Justin Sirois" class="w-8 h-8 rounded-full object-cover border border-slate-300" onerror="this.onerror=null; this.src='https://placehold.co/32x32/F8F7F4/333D45?text=JS';">
+                <div class="font-bold text-lg text-slate-800">
+                    Justin Sirois <span class="font-normal text-slate-500">Courtier Immobilier</span>
+                </div>
             </div>
             <div class="hidden md:flex space-x-6 items-center">
-                <a href="#pourquoi-gatineau" class="text-slate-600 hover:text-[#5A8A9E] transition">Pourquoi Gatineau?</a>
-                <a href="#quartiers" class="text-slate-600 hover:text-[#5A8A9E] transition">Quartiers</a>
-                <a href="#processus" class="text-slate-600 hover:text-[#5A8A9E] transition">Le Processus</a>
-                <a href="#navette" class="text-slate-600 hover:text-[#5A8A9E] transition">Navette & Accès</a>
-                <a href="#contact" class="bg-[#5A8A9E] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow">Contactez-moi</a>
+                <a href="#pourquoi-gatineau" class="text-slate-600 hover:text-[#C80C0B] transition">Pourquoi Gatineau?</a>
+                <a href="#quartiers" class="text-slate-600 hover:text-[#C80C0B] transition">Quartiers</a>
+                <a href="#processus" class="text-slate-600 hover:text-[#C80C0B] transition">Le Processus</a>
+                <a href="#deplacements" class="text-slate-600 hover:text-[#C80C0B] transition">Déplacements & Accès</a>
+                <a href="#contact" class="bg-[#C80C0B] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow">Contactez-moi</a>
             </div>
             <div class="md:hidden">
-                 <a href="#contact" class="bg-[#5A8A9E] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow text-sm">Contact</a>
+                 <a href="#contact" class="bg-[#C80C0B] text-white px-4 py-2 rounded-full hover:bg-opacity-90 transition shadow text-sm">Contact</a>
             </div>
         </nav>
     </header>
@@ -102,7 +105,9 @@
         <section class="hero-bg text-white h-[60vh] md:h-[70vh] flex items-center">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">Votre future maison vous attend à Gatineau.</h1>
-                <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto">Découvrez comment économiser des dizaines de milliers de dollars sans vous éloigner d'Ottawa. Ce guide interactif vous dévoile tout.</p>
+                <p class="text-lg md:text-xl text-slate-200 max-w-3xl mx-auto mb-8">Découvrez comment économiser des dizaines de milliers de dollars sans vous éloigner d'Ottawa. Ce guide interactif vous dévoile tout.</p>
+                <!-- Image of a dream home with a modern design and a well-maintained garden. -->
+                <img src="https://images.unsplash.com/photo-1601633519890-a3592f80c657?q=80&w=1920&auto=format&fit=crop" alt="Vue panoramique de Gatineau avec la rivière et des maisons modernes" class="w-full max-w-4xl mx-auto rounded-lg shadow-xl" />
             </div>
         </section>
 
@@ -124,8 +129,8 @@
                             <h3 class="font-bold text-xl mb-4 text-slate-700">Calculateur d'Économies ✨</h3>
                             <p class="text-sm text-slate-600 mb-2">Entrez votre budget approximatif à Ottawa pour voir votre potentiel d'économies à Gatineau :</p>
                             <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
-                                <input type="number" id="ottawaBudgetInput" placeholder="Ex: 600000" class="flex-grow p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
-                                <button id="calculateSavingsBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full sm:w-auto">Calculer mes économies ✨</button>
+                                <input type="number" id="ottawaBudgetInput" placeholder="Ex: 600000" class="flex-grow p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#C80C0B] text-slate-800">
+                                <button id="calculateSavingsBtn" class="bg-[#C80C0B] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full sm:w-auto">Calculer mes économies ✨</button>
                             </div>
                             <div id="savingsResult" class="mt-4 p-4 bg-white rounded-lg shadow-inner hidden">
                                 <div id="savingsSpinner" class="loading-spinner mx-auto hidden"></div>
@@ -177,11 +182,31 @@
                             </li>
                             <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="limbour">
                                 <h4 class="font-semibold">Limbour</h4>
-                                <p class="text-sm text-slate-500">Verdoyant et établi</p>
+                                <p class="text-sm text-slate-500">Verdant et établi</p>
                             </li>
                             <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="cote-azur">
                                 <h4 class="font-semibold">Côte d'Azur</h4>
                                 <p class="text-sm text-slate-500">Dynamique et accessible</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="aylmer">
+                                <h4 class="font-semibold">Aylmer</h4>
+                                <p class="text-sm text-slate-500">Historique, bord de l'eau</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="chelsea">
+                                <h4 class="font-semibold">Chelsea</h4>
+                                <p class="text-sm text-slate-500">Nature, esprit villageois</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="val-des-monts">
+                                <h4 class="font-semibold">Val-des-Monts</h4>
+                                <p class="text-sm text-slate-500">Lacs, forêts, tranquillité</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="cantley">
+                                <h4 class="font-semibold">Cantley</h4>
+                                <p class="text-sm text-slate-500">Campagne, nature, intimité</p>
+                            </li>
+                            <li class="quartier-tab cursor-pointer p-4 border-l-4 border-transparent rounded-r-md bg-white shadow-sm" data-tab="buckingham">
+                                <h4 class="font-semibold">Buckingham</h4>
+                                <p class="text-sm text-slate-500">Historique, abordable, rivière</p>
                             </li>
                         </ul>
                     </div>
@@ -194,6 +219,16 @@
                                 <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Commerces</span>
                                 <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Accès Ottawa</span>
                             </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte du Plateau</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+du+Plateau" alt="Carte du quartier Le Plateau" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Entrée du Parc de la Gatineau</li>
+                                    <li>Nombreux restaurants et boutiques modernes</li>
+                                    <li>Cinéma Guzzo Mega-Plex</li>
+                                </ul>
+                            </div>
                         </div>
                         <div id="limbour" class="tab-content">
                              <h3 class="text-2xl font-bold mb-4 text-slate-800">Limbour : La tranquilité verdoyante</h3>
@@ -202,6 +237,16 @@
                                 <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Grands terrains</span>
                                 <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Tranquille</span>
                                 <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full">Établi</span>
+                            </div>
+                             <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Limbour</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Limbour" alt="Carte du quartier Limbour" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Parc Central (grands espaces verts)</li>
+                                    <li>Accès direct à des pistes cyclables</li>
+                                    <li>Proximité de la Rivière Gatineau</li>
+                                </ul>
                             </div>
                         </div>
                         <div id="cote-azur" class="tab-content">
@@ -212,16 +257,110 @@
                                 <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Transport en commun</span>
                                 <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Connecté</span>
                             </div>
+                             <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Côte d'Azur</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Cote+d%27Azur" alt="Carte du quartier Côte d'Azur" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Les Promenades Gatineau (centre commercial)</li>
+                                    <li>Cégep de l'Outaouais (Campus Gabrielle-Roy)</li>
+                                    <li>Bibliothèque municipale</li>
+                                </ul>
+                            </div>
                         </div>
-
-                        <div class="mt-8 pt-8 border-t border-slate-200">
-                            <h3 class="font-bold text-xl mb-4 text-slate-700">Suggestions de Quartiers Personnalisées ✨</h3>
-                            <p class="text-sm text-slate-600 mb-2">Décrivez ce que vous recherchez dans un quartier (ex: calme, proche des écoles, parcs, dynamisme, transports en commun) :</p>
-                            <textarea id="neighborhoodPrefsInput" rows="3" class="w-full p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800" placeholder="J'ai une jeune famille et je cherche des parcs et de bonnes écoles..."></textarea>
-                            <button id="suggestNeighborhoodsBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md mt-3 w-full">Suggérer des quartiers ✨</button>
-                            <div id="neighborhoodResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
-                                <div id="neighborhoodSpinner" class="loading-spinner mx-auto hidden"></div>
-                                <p id="neighborhoodText" class="text-slate-700"></p>
+                        <div id="aylmer" class="tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Aylmer : Charme historique au bord de l'eau</h3>
+                            <p class="text-slate-600 mb-4">Aylmer séduit par son cachet historique, son ambiance de village et sa magnifique marina. C'est un quartier familial prisé pour sa vie communautaire active et ses écoles reconnues.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Historique</span>
+                                <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full">Bord de l'eau</span>
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Communauté</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte d'Aylmer</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+d%27Aylmer" alt="Carte du quartier Aylmer" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Marina d'Aylmer</li>
+                                    <li>Rue Principale (boutiques, cafés, restos)</li>
+                                    <li>Parc des Cèdres (plage, activités)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="chelsea" class="tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Chelsea : Évasion nature et esprit villageois</h3>
+                            <p class="text-slate-600 mb-4">Situé aux portes du Parc de la Gatineau, Chelsea est le paradis des amoureux de la nature. Il offre de grands espaces verts et une atmosphère de village avec des boutiques et cafés locaux, tout en restant accessible d'Ottawa.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Nature</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Grands espaces</span>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full">Villageois</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Chelsea</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Chelsea" alt="Carte du quartier Chelsea" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Spa Nordik Stoneham (juste à côté)</li>
+                                    <li>Sentiers du Parc de la Gatineau (Lac Pink, Kingsmere)</li>
+                                    <li>Boutiques et cafés locaux du village</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="val-des-monts" class="tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Val-des-Monts : Lacs, forêts et tranquillité</h3>
+                            <p class="text-slate-600 mb-4">Pour une vie au grand air, Val-des-Monts est idéal avec ses nombreux lacs et forêts. C'est un refuge paisible loin de l'agitation urbaine, offrant de multiples activités de plein air, tout en étant à une distance raisonnable de Gatineau et Ottawa.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-sky-100 text-sky-800 px-3 py-1 rounded-full">Lacs</span>
+                                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Forêts</span>
+                                <span class="bg-slate-100 text-slate-800 px-3 py-1 rounded-full">Tranquillité</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Val-des-Monts</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Val-des-Monts" alt="Carte de Val-des-Monts" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Lac Saint-Pierre (activités nautiques)</li>
+                                    <li>Sentiers de motoneige et VTT</li>
+                                    <li>Plusieurs pourvoiries et chalets</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="cantley" class="tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Cantley : Campagne, nature et intimité</h3>
+                            <p class="text-slate-600 mb-4">Cantley offre une ambiance rurale avec de grands terrains et beaucoup d'intimité. C'est le choix parfait pour ceux qui recherchent le calme de la campagne, la proximité des activités de plein air, tout en ayant un accès facile aux services de la ville.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-lime-100 text-lime-800 px-3 py-1 rounded-full">Campagne</span>
+                                <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full">Intimité</span>
+                                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Nature</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Cantley</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Cantley" alt="Carte de Cantley" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Ferme Taïga (produits locaux, alpagas)</li>
+                                    <li>Nombreux sentiers équestres et de randonnée</li>
+                                    <li>Proximité de la Réserve faunique de Papineau-Labelle</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="buckingham" class="tab-content">
+                            <h3 class="text-2xl font-bold mb-4 text-slate-800">Buckingham : Historique, abordable, rivière</h3>
+                            <p class="text-slate-600 mb-4">Buckingham est un quartier avec beaucoup de caractère, offrant des propriétés plus abordables. Situé au bord de la rivière, il dispose de ses propres services locaux, de commerces et d'une ambiance communautaire distinctive.</p>
+                            <div class="flex space-x-4 text-sm">
+                                <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full">Historique</span>
+                                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full">Abordable</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Rivière</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Carte de Buckingham</h4>
+                                <img src="https://placehold.co/400x250/F0F0F0/888888?text=Carte+de+Buckingham" alt="Carte de Buckingham" class="w-full rounded-md shadow-md mb-4">
+                                <h4 class="font-bold text-lg mb-2 text-slate-700">Attractions à Proximité :</h4>
+                                <ul class="list-disc list-inside text-slate-600 text-sm">
+                                    <li>Chutes de Plaisance (à proximité)</li>
+                                    <li>Parc Maclaren (accès à la rivière du Lièvre)</li>
+                                    <li>Centre-ville historique avec commerces locaux</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -240,19 +379,19 @@
                     <div class="step-line hidden md:block"></div>
                     <div id="steps-container" class="grid md:grid-cols-4 gap-8">
                         <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="1">
-                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">1</div>
+                            <div class="text-2xl font-bold text-[#C80C0B] mb-2">1</div>
                             <h4 class="font-semibold">Promesse d'Achat</h4>
                         </div>
                         <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="2">
-                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">2</div>
+                            <div class="text-2xl font-bold text-[#C80C0B] mb-2">2</div>
                             <h4 class="font-semibold">Conditions</h4>
                         </div>
                         <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="3">
-                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">3</div>
+                            <div class="text-2xl font-bold text-[#C80C0B] mb-2">3</div>
                             <h4 class="font-semibold">Notaire</h4>
                         </div>
                          <div class="step text-center cursor-pointer p-4 rounded-lg bg-slate-100" data-step="4">
-                            <div class="text-2xl font-bold text-[#5A8A9E] mb-2">4</div>
+                            <div class="text-2xl font-bold text-[#C80C0B] mb-2">4</div>
                             <h4 class="font-semibold">Prise de Possession</h4>
                         </div>
                     </div>
@@ -266,8 +405,8 @@
                 <div class="mt-12 pt-8 border-t border-slate-200">
                     <h3 class="font-bold text-xl mb-4 text-slate-700">Démystificateur de Mythes ✨</h3>
                     <p class="text-sm text-slate-600 mb-2">Posez une question sur le processus d'achat immobilier à Gatineau ou sur un mythe que vous avez entendu :</p>
-                    <textarea id="mythQuestionInput" rows="3" class="w-full p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800" placeholder="Est-ce vrai que les taxes sont beaucoup plus élevées au Québec ?"></textarea>
-                    <button id="askMythBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md mt-3 w-full">Poser ma question ✨</button>
+                    <textarea id="mythQuestionInput" rows="3" class="w-full p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#C80C0B] text-slate-800"></textarea>
+                    <button id="askMythBtn" class="bg-[#C80C0B] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md mt-3 w-full">Poser ma question ✨</button>
                     <div id="mythResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
                         <div id="mythSpinner" class="loading-spinner mx-auto hidden"></div>
                         <p id="mythText" class="text-slate-700"></p>
@@ -276,10 +415,10 @@
             </div>
         </section>
 
-        <section id="navette" class="py-16 md:py-24">
+        <section id="deplacements" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Le Bon Plan pour la Navette</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Le Bon Plan pour les Déplacements</h2>
                     <p class="mt-2 text-lg text-slate-600 max-w-3xl mx-auto">Vivez à Gatineau, travaillez à Ottawa, sans stress ! Découvrez les options de transport.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 mb-12">
@@ -301,13 +440,13 @@
                 </div>
 
                 <div class="mt-8 pt-8 border-t border-slate-200 bg-white p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
-                    <h3 class="font-bold text-xl mb-4 text-slate-700">Optimisateur de Navette ✨</h3>
+                    <h3 class="font-bold text-xl mb-4 text-slate-700">Optimisateur de Déplacements ✨</h3>
                     <p class="text-sm text-slate-600 mb-2">Entrez votre lieu de travail à Ottawa et un quartier de Gatineau souhaité pour obtenir des conseils sur votre trajet :</p>
                     <div class="flex flex-col space-y-3 mb-4">
-                        <input type="text" id="ottawaWorkLocation" placeholder="Lieu de travail à Ottawa (ex: Parlement, Centre-ville)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
-                        <input type="text" id="gatineauNeighborhoodPref" placeholder="Quartier de Gatineau préféré (ex: Le Plateau, Limbour)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#5A8A9E] text-slate-800">
+                        <input type="text" id="ottawaWorkLocation" placeholder="Lieu de travail à Ottawa (ex: Parlement, Centre-ville)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#C80C0B] text-slate-800">
+                        <input type="text" id="gatineauNeighborhoodPref" placeholder="Quartier de Gatineau préféré (ex: Le Plateau, Limbour)" class="p-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#C80C0B] text-slate-800">
                     </div>
-                    <button id="optimizeCommuteBtn" class="bg-[#5A8A9E] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full">Optimiser ma navette ✨</button>
+                    <button id="optimizeCommuteBtn" class="bg-[#C80C0B] text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition shadow-md w-full">Optimiser mes déplacements ✨</button>
                     <div id="commuteResult" class="mt-4 p-4 bg-slate-50 rounded-lg shadow-inner hidden">
                         <div id="commuteSpinner" class="loading-spinner mx-auto hidden"></div>
                         <p id="commuteText" class="text-slate-700"></p>
@@ -319,7 +458,7 @@
         <section id="contact" class="py-16 md:py-24 bg-slate-800 text-white">
             <div class="container mx-auto px-6 text-center">
                 <div class="max-w-md mx-auto mb-8">
-                    <img src="JUSTIN PRO V2.jpg" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-600 object-cover" alt="Photo de Justin Sirois" onerror="this.onerror=null; this.src='https://placehold.co/128x128/F8F7F4/333D45?text=JS';">
+                    <img src="https://images.unsplash.com/photo-1570129477005-ed9c61284d72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-600 object-cover" alt="Image d'une maison de rêve">
                 </div>
                 <h2 class="text-3xl md:text-4xl font-bold">Prêt à faire le saut ? Parlons-en.</h2>
                 <p class="mt-4 mb-8 text-lg text-slate-300 max-w-2xl mx-auto">Mon engagement est de vous offrir des résultats concrets, une expertise détaillée et une négociation stratégique. Laissez-moi vous guider vers votre nouvelle maison à Gatineau.</p>
@@ -328,11 +467,11 @@
                     <h3 class="text-2xl font-bold">Justin Sirois</h3>
                     <p class="text-slate-500 mb-4">Courtier Immobilier Résidentiel</p>
                     <div class="space-y-3 text-left">
-                        <p><span class="font-semibold">Téléphone :</span> <a href="tel:819-431-8249" class="text-[#5A8A9E] hover:underline">819.431.8249</a></p>
-                        <p><span class="font-semibold">Courriel :</span> <a href="mailto:Justin@1sirois.com" class="text-[#5A8A9E] hover:underline">Justin@1sirois.com</a></p>
-                         <p><span class="font-semibold">Site Web :</span> <a href="https://sites.google.com/view/justinsiroisimmobilier" target="_blank" rel="noopener noreferrer" class="text-[#5A8A9E] hover:underline">justinsiroisimmobilier.google.site</a></p>
+                        <p><span class="font-semibold">Téléphone :</span> <a href="tel:819-431-8249" class="text-[#C80C0B] hover:underline">819.431.8249</a></p>
+                        <p><span class="font-semibold">Courriel :</span> <a href="mailto:Justin@1sirois.com" class="text-[#C80C0B] hover:underline">Justin@1sirois.com</a></p>
+                         <p><span class="font-semibold">Site Web :</span> <a href="https://sites.google.com/view/justinsiroisimmobilier" target="_blank" rel="noopener noreferrer" class="text-[#C80C0B] hover:underline">justinsiroisimmobilier.google.site</a></p>
                     </div>
-                     <a href="mailto:Justin@1sirois.com" class="mt-6 block w-full bg-[#5A8A9E] text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition shadow-md">Planifier un appel</a>
+                     <a href="mailto:Justin@1sirois.com" class="mt-6 block w-full bg-[#C80C0B] text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition shadow-md">Planifier un appel</a>
                 </div>
             </div>
         </section>
@@ -347,76 +486,87 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const priceCtx = document.getElementById('priceChart').getContext('2d');
-            new Chart(priceCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Ottawa', 'Gatineau'],
-                    datasets: [{
-                        label: 'Prix de vente médian',
-                        data: [750000, 480000],
-                        backgroundColor: [
-                            'rgba(203, 213, 225, 0.6)',
-                            'rgba(90, 138, 158, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(100, 116, 139, 1)',
-                            'rgba(90, 138, 158, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 0 });
+            const priceChartCanvas = document.getElementById('priceChart');
+            const priceCtx = priceChartCanvas?.getContext('2d'); // Use optional chaining here
+            if (priceCtx) {
+                new Chart(priceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ottawa', 'Gatineau'],
+                        datasets: [{
+                            label: 'Prix de vente médian',
+                            data: [750000, 480000],
+                            backgroundColor: [
+                                'rgba(203, 213, 225, 0.6)',
+                                'rgba(196, 12, 11, 0.6)' /* KW Red with transparency */
+                            ],
+                            borderColor: [
+                                'rgba(100, 116, 139, 1)',
+                                'rgba(196, 12, 11, 1)' /* KW Red */
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 0 });
+                                    }
                                 }
                             }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
                         },
-                        tooltip: {
-                             callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('fr-CA', { style: 'currency', currency: 'CAD' }).format(context.parsed.y);
+                                        }
+                                        return label;
                                     }
-                                    if (context.parsed.y !== null) {
-                                        label += new Intl.NumberFormat('fr-CA', { style: 'currency', currency: 'CAD' }).format(context.parsed.y);
-                                    }
-                                    return label;
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                console.error("Erreur: L'élément 'priceChart' (canvas) ou son contexte n'a pas été trouvé.");
+            }
+
 
             const quartierTabs = document.querySelectorAll('.quartier-tab');
             const tabContents = document.querySelectorAll('.tab-content');
-            quartierTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    quartierTabs.forEach(t => t.classList.remove('active-tab'));
-                    tab.classList.add('active-tab');
-                    
-                    const target = tab.getAttribute('data-tab');
-                    tabContents.forEach(content => {
-                        content.classList.remove('active-tab-content');
-                        if (content.id === target) {
-                            content.classList.add('active-tab-content');
-                        }
+            
+            if (quartierTabs.length > 0 && tabContents.length > 0) {
+                quartierTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        quartierTabs.forEach(t => t.classList.remove('active-tab'));
+                        tab.classList.add('active-tab');
+                        
+                        const target = tab.getAttribute('data-tab');
+                        tabContents.forEach(content => {
+                            content.classList.remove('active-tab-content');
+                            if (content.id === target) {
+                                content.classList.add('active-tab-content');
+                            }
+                        });
                     });
                 });
-            });
+            } else {
+                console.warn("Avertissement: Les onglets de quartier ou leur contenu n'ont pas été trouvés.");
+            }
 
             const steps = {
                 '1': { 
@@ -441,28 +591,31 @@
             const stepTitle = document.getElementById('step-title');
             const stepDescription = document.getElementById('step-description');
             
-            function updateStepDetails(stepNumber) {
-                const allSteps = stepsContainer.querySelectorAll('.step');
-                allSteps.forEach(s => s.classList.remove('active'));
-                
-                const activeStep = stepsContainer.querySelector(`[data-step="${stepNumber}"]`);
-                if (activeStep) {
-                    activeStep.classList.add('active');
+            if (stepsContainer && stepTitle && stepDescription) {
+                stepsContainer.addEventListener('click', (e) => {
+                    const stepElement = e.target.closest('.step');
+                    if (stepElement) {
+                        const stepNumber = stepElement.getAttribute('data-step');
+                        updateStepDetails(stepNumber);
+                    }
+                });
+                // Fonction pour mettre à jour les détails de l'étape
+                function updateStepDetails(stepNumber) {
+                    const allSteps = stepsContainer.querySelectorAll('.step');
+                    allSteps.forEach(s => s.classList.remove('active'));
+                    
+                    const activeStep = stepsContainer.querySelector(`[data-step="${stepNumber}"]`);
+                    if (activeStep) {
+                        activeStep.classList.add('active');
+                    }
+                    
+                    if (stepTitle) stepTitle.textContent = steps[stepNumber].title;
+                    if (stepDescription) stepDescription.textContent = steps[stepNumber].description;
                 }
-                
-                stepTitle.textContent = steps[stepNumber].title;
-                stepDescription.textContent = steps[stepNumber].description;
+                updateStepDetails('1'); // Initialize first step
+            } else {
+                console.error("Erreur: Les éléments pour les étapes du processus (container, titre ou description) n'ont pas été trouvés.");
             }
-
-            stepsContainer.addEventListener('click', (e) => {
-                const stepElement = e.target.closest('.step');
-                if (stepElement) {
-                    const stepNumber = stepElement.getAttribute('data-step');
-                    updateStepDetails(stepNumber);
-                }
-            });
-
-            updateStepDetails('1');
 
 
             const ottawaBudgetInput = document.getElementById('ottawaBudgetInput');
@@ -471,50 +624,54 @@
             const savingsText = document.getElementById('savingsText');
             const savingsSpinner = document.getElementById('savingsSpinner');
 
-            calculateSavingsBtn.addEventListener('click', async () => {
-                const ottawaBudget = ottawaBudgetInput.value;
-                if (!ottawaBudget || isNaN(ottawaBudget) || ottawaBudget <= 0) {
-                    savingsResult.classList.remove('hidden');
-                    savingsText.textContent = 'Veuillez entrer un budget valide.';
-                    return;
-                }
-
-                savingsResult.classList.remove('hidden');
-                savingsText.textContent = '';
-                savingsSpinner.classList.remove('hidden');
-                calculateSavingsBtn.disabled = true;
-
-                try {
-                    let chatHistory = [];
-                    const prompt = `En tant que courtier immobilier expert, si un acheteur a un budget de ${ottawaBudget} CAD à Ottawa, quel serait un prix comparable à Gatineau pour une propriété similaire et quelle serait l'économie potentielle? Fournissez une estimation du prix à Gatineau et le montant économisé, puis un message encourageant soulignant les avantages financiers d'acheter à Gatineau. Structurez la réponse avec un titre 'Votre potentiel d'économies à Gatineau' suivi des montants et du message.`;
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        savingsText.textContent = text;
-                    } else {
-                        savingsText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion pour le moment. Veuillez réessayer.';
+            if (calculateSavingsBtn && ottawaBudgetInput && savingsResult && savingsText && savingsSpinner) {
+                calculateSavingsBtn.addEventListener('click', async () => {
+                    const ottawaBudget = ottawaBudgetInput.value;
+                    if (!ottawaBudget || isNaN(ottawaBudget) || ottawaBudget <= 0) {
+                        savingsResult.classList.remove('hidden');
+                        savingsText.textContent = 'Veuillez entrer un budget valide.';
+                        return;
                     }
-                } catch (error) {
-                    console.error('Erreur lors de l\'appel à l\'API Gemini (Calculateur d\'économies):', error);
-                    savingsText.textContent = 'Une erreur est survenue lors du calcul. Veuillez réessayer plus tard.';
-                } finally {
-                    savingsSpinner.classList.add('hidden');
-                    calculateSavingsBtn.disabled = false;
-                }
-            });
+
+                    savingsResult.classList.remove('hidden');
+                    savingsText.textContent = '';
+                    savingsSpinner.classList.remove('hidden');
+                    calculateSavingsBtn.disabled = true;
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `En tant que courtier immobilier expert, si un acheteur a un budget de ${ottawaBudget} CAD à Ottawa, quel serait un prix comparable à Gatineau pour une propriété similaire et quelle serait l'économie potentielle? Fournissez une estimation du prix à Gatineau et le montant économisé, puis un message encourageant soulignant les avantages financiers d'acheter à Gatineau. Structurez la réponse avec un titre 'Votre potentiel d'économies à Gatineau' suivi des montants et du message.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Insérer votre clé API Gemini ici
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+                        
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            savingsText.textContent = result.candidates[0].content.parts[0].text;
+                        } else {
+                            savingsText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion pour le moment. Veuillez réessayer.';
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'appel à l\'API Gemini (Calculateur d\'économies):', error);
+                        savingsText.textContent = 'Une erreur est survenue lors du calcul. Veuillez réessayer plus tard.';
+                    } finally {
+                        savingsSpinner.classList.add('hidden');
+                        calculateSavingsBtn.disabled = false;
+                    }
+                });
+            } else {
+                console.error("Erreur: Les éléments pour le calculateur d'économies n'ont pas été trouvés.");
+            }
+
 
             const neighborhoodPrefsInput = document.getElementById('neighborhoodPrefsInput');
             const suggestNeighborhoodsBtn = document.getElementById('suggestNeighborhoodsBtn');
@@ -522,102 +679,110 @@
             const neighborhoodText = document.getElementById('neighborhoodText');
             const neighborhoodSpinner = document.getElementById('neighborhoodSpinner');
 
-            suggestNeighborhoodsBtn.addEventListener('click', async () => {
-                const userDescription = neighborhoodPrefsInput.value.trim();
-                if (!userDescription) {
-                    neighborhoodResult.classList.remove('hidden');
-                    neighborhoodText.textContent = 'Veuillez décrire ce que vous recherchez.';
-                    return;
-                }
-
-                neighborhoodResult.classList.remove('hidden');
-                neighborhoodText.textContent = '';
-                neighborhoodSpinner.classList.remove('hidden');
-                suggestNeighborhoodsBtn.disabled = true;
-
-                try {
-                    let chatHistory = [];
-                    const prompt = `En tant qu'expert immobilier de Gatineau, si un acheteur recherche un quartier avec les caractéristiques suivantes : "${userDescription}". Parmi les quartiers de Gatineau suivants (Le Plateau, Limbour, Côte d'Azur, Aylmer, Gatineau Centre), lesquels recommanderiez-vous et pourquoi, en 1 à 2 phrases par quartier?`;
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        neighborhoodText.textContent = text;
-                    } else {
-                        neighborhoodText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion de quartier pour le moment. Veuillez réessayer.';
+            if (suggestNeighborhoodsBtn && neighborhoodPrefsInput && neighborhoodResult && neighborhoodText && neighborhoodSpinner) {
+                suggestNeighborhoodsBtn.addEventListener('click', async () => {
+                    const userDescription = neighborhoodPrefsInput.value.trim();
+                    if (!userDescription) {
+                        neighborhoodResult.classList.remove('hidden');
+                        neighborhoodText.textContent = 'Veuillez décrire ce que vous recherchez.';
+                        return;
                     }
-                } catch (error) {
-                    console.error('Erreur lors de l\'appel à l\'API Gemini (Suggestions de quartiers):', error);
-                    neighborhoodText.textContent = 'Une erreur est survenue lors de la suggestion. Veuillez réessayer plus tard.';
-                } finally {
-                    neighborhoodSpinner.classList.add('hidden');
-                    suggestNeighborhoodsBtn.disabled = false;
-                }
-            });
+
+                    neighborhoodResult.classList.remove('hidden');
+                    neighborhoodText.textContent = '';
+                    neighborhoodSpinner.classList.remove('hidden');
+                    suggestNeighborhoodsBtn.disabled = true;
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `En tant qu'expert immobilier de Gatineau, si un acheteur recherche un quartier avec les caractéristiques suivantes : "${userDescription}". Parmi les quartiers de Gatineau suivants (Le Plateau, Limbour, Côte d'Azur, Aylmer, Gatineau Centre), lesquels recommanderiez-vous et pourquoi, en 1 à 2 phrases par quartier?`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Insérer votre clé API Gemini ici
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            neighborhoodText.textContent = result.candidates[0].content.parts[0].text;
+                        } else {
+                            neighborhoodText.textContent = 'Désolé, je n\'ai pas pu générer de suggestion de quartier pour le moment. Veuillez réessayer.';
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'appel à l\'API Gemini (Suggestions de quartiers):', error);
+                        neighborhoodText.textContent = 'Une erreur est survenue lors de la suggestion. Veuillez réessayer plus tard.';
+                    } finally {
+                        neighborhoodSpinner.classList.add('hidden');
+                        suggestNeighborhoodsBtn.disabled = false;
+                    }
+                });
+            } else {
+                console.error("Erreur: Les éléments pour les suggestions de quartiers n'ont pas été trouvés.");
+            }
+
 
             // Gemini API Integration - Myth Buster
             const mythQuestionInput = document.getElementById('mythQuestionInput');
             const askMythBtn = document.getElementById('askMythBtn');
             const mythResult = document.getElementById('mythResult');
-            const mythText = document.getElementById('mythText');
+            const mythText = document.getElementById('mythText'); 
             const mythSpinner = document.getElementById('mythSpinner');
 
-            askMythBtn.addEventListener('click', async () => {
-                const question = mythQuestionInput.value.trim();
-                if (!question) {
-                    mythResult.classList.remove('hidden');
-                    mythText.textContent = 'Veuillez poser une question.';
-                    return;
-                }
-
-                mythResult.classList.remove('hidden');
-                mythText.textContent = '';
-                mythSpinner.classList.remove('hidden');
-                askMythBtn.disabled = true;
-
-                try {
-                    let chatHistory = [];
-                    const prompt = `En tant que courtier immobilier expert à Gatineau, répondez à la question suivante concernant l'achat immobilier à Gatineau ou le déménagement d'Ottawa à Gatineau : "${question}". Soyez concis et informatif.`;
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        mythText.textContent = text;
-                    } else {
-                        mythText.textContent = 'Désolé, je n\'ai pas pu répondre à votre question pour le moment. Veuillez réessayer.';
+            if (askMythBtn && mythQuestionInput && mythResult && mythText && mythSpinner) { 
+                askMythBtn.addEventListener('click', async () => {
+                    const question = mythQuestionInput.value.trim();
+                    if (!question) {
+                        mythResult.classList.remove('hidden');
+                        mythText.textContent = 'Veuillez poser une question.';
+                        return;
                     }
-                } catch (error) {
-                    console.error('Erreur lors de l\'appel à l\'API Gemini (Démystificateur de Mythes):', error);
-                    mythText.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.';
-                } finally {
-                    mythSpinner.classList.add('hidden');
-                    askMythBtn.disabled = false;
-                }
-            });
+
+                    mythResult.classList.remove('hidden');
+                    mythText.textContent = '';
+                    mythSpinner.classList.remove('hidden');
+                    askMythBtn.disabled = true;
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `En tant que courtier immobilier expert à Gatineau, répondez à la question suivante concernant l'achat immobilier à Gatineau ou le déménagement d'Ottawa à Gatineau : "${question}". Soyez concis et informatif.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Insérer votre clé API Gemini ici
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            mythText.textContent = result.candidates[0].content.parts[0].text;
+                        } else {
+                            mythText.textContent = 'Désolé, je n\'ai pas pu répondre à votre question pour le moment. Veuillez réessayer.';
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'appel à l\'API Gemini (Démystificateur de Mythes):', error);
+                        mythText.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.';
+                    } finally {
+                        mythSpinner.classList.add('hidden');
+                        askMythBtn.disabled = false;
+                    }
+                });
+            } else {
+                console.error("Erreur: Les éléments pour le démystificateur de mythes n'ont pas été trouvés.");
+            }
+
 
             // Gemini API Integration - Commute Optimizer
             const ottawaWorkLocationInput = document.getElementById('ottawaWorkLocation');
@@ -627,52 +792,55 @@
             const commuteText = document.getElementById('commuteText');
             const commuteSpinner = document.getElementById('commuteSpinner');
 
-            optimizeCommuteBtn.addEventListener('click', async () => {
-                const workLocation = ottawaWorkLocationInput.value.trim();
-                const neighborhoodPref = gatineauNeighborhoodPrefInput.value.trim();
+            if (optimizeCommuteBtn && ottawaWorkLocationInput && gatineauNeighborhoodPrefInput && commuteResult && commuteText && commuteSpinner) { 
+                optimizeCommuteBtn.addEventListener('click', async () => {
+                    const workLocation = ottawaWorkLocationInput.value.trim();
+                    const neighborhoodPref = gatineauNeighborhoodPrefInput.value.trim();
 
-                if (!workLocation || !neighborhoodPref) {
-                    commuteResult.classList.remove('hidden');
-                    commuteText.textContent = 'Veuillez entrer votre lieu de travail à Ottawa et un quartier de Gatineau.';
-                    return;
-                }
-
-                commuteResult.classList.remove('hidden');
-                commuteText.textContent = '';
-                commuteSpinner.classList.remove('hidden');
-                optimizeCommuteBtn.disabled = true;
-
-                try {
-                    let chatHistory = [];
-                    const prompt = `En tant qu'expert de la navette Ottawa-Gatineau, si quelqu'un travaille à "${workLocation}" à Ottawa et souhaite vivre dans le quartier "${neighborhoodPref}" à Gatineau, quels seraient les meilleurs conseils de navette (ex: ponts, transports en commun, heures) et une estimation générale du temps de trajet aux heures de pointe? Soyez concis et pratique.`;
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        commuteText.textContent = text;
-                    } else {
-                        commuteText.textContent = 'Désolé, je n\'ai pas pu optimiser la navette pour le moment. Veuillez réessayer.';
+                    if (!workLocation || !neighborhoodPref) {
+                        commuteResult.classList.remove('hidden');
+                        commuteText.textContent = 'Veuillez entrer votre lieu de travail à Ottawa et un quartier de Gatineau.';
+                        return;
                     }
-                } catch (error) {
-                    console.error('Erreur lors de l\'appel à l\'API Gemini (Optimisateur de Navette):', error);
-                    commuteText.textContent = 'Une erreur est survenue lors de l\'optimisation. Veuillez réessayer plus tard.';
-                } finally {
-                    commuteSpinner.classList.add('hidden');
-                    optimizeCommuteBtn.disabled = false;
-                }
-            });
+
+                    commuteResult.classList.remove('hidden');
+                    commuteText.textContent = '';
+                    commuteSpinner.classList.remove('hidden');
+                    optimizeCommuteBtn.disabled = true;
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `En tant qu'expert de la navette Ottawa-Gatineau, si quelqu'un travaille à "${workLocation}" à Ottawa et souhaite vivre dans le quartier "${neighborhoodPref}" à Gatineau, quels seraient les meilleurs conseils de navette (ex: ponts, transports en commun, heures) et une estimation générale du temps de trajet aux heures de pointe? Soyez concis et pratique.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Insérer votre clé API Gemini ici
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            commuteText.textContent = result.candidates[0].content.parts[0].text;
+                        } else {
+                            commuteText.textContent = 'Désolé, je n\'ai pas pu optimiser la navette pour le moment. Veuillez réessayer.';
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'appel à l\'API Gemini (Optimisateur de Déplacements):', error);
+                        commuteText.textContent = 'Une erreur est survenue lors de l\'optimisation. Veuillez réessayer plus tard.';
+                    } finally {
+                        commuteSpinner.classList.add('hidden');
+                        optimizeCommuteBtn.disabled = false;
+                    }
+                });
+            } else {
+                console.error("Erreur: Les éléments pour l'optimisateur de déplacements n'ont pas été trouvés.");
+            }
         });
     </script>
 </body>
